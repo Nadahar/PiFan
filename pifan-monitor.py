@@ -3,10 +3,9 @@
 import RPi.GPIO as GPIO
 import time
 
-# Pin configuration
-TACH = 24       # Fan's tachometer output pin
-PULSE = 2       # Noctua fans puts out two pluses per revolution
-WAIT_TIME = 1   # [s] Time to wait between each refresh
+TACH = 24       # The fan's tachometer output GPIO pin number.
+PULSE = 2       # The number of pulses per revolution, most fans seems to use two.
+WAIT_TIME = 1   # [s] The time to wait between each refresh.
 
 # Setup GPIO
 GPIO.setmode(GPIO.BCM)
@@ -24,7 +23,7 @@ def fell(n):
     global rpm
 
     dt = time.time() - t
-    if dt < 0.005:
+    if dt < 0.002:
         return  # Reject spuriously short pulses
 
     freq = 1 / dt
