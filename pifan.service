@@ -1,0 +1,10 @@
+[Unit]
+Description=Raspberry Pi CPU Fan Control Service
+
+[Service]
+Type=exec
+ExecStart=/usr/local/bin/pifand
+Restart=always
+
+[Install]
+WantedBy=basic.target
