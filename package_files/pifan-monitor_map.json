@@ -1,0 +1,10 @@
+[
+  {
+    "name": "control",
+    "path": "/DEBIAN/"
+  },
+  {
+    "name": "pifan-monitor",
+    "path": "/usr/local/bin/"
+  }
+]

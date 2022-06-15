@@ -1,0 +1,12 @@
+{
+  "Package": "pifan-monitor",
+  "Version": "REPLACE_VERSION",
+  "Priority": "optional",
+  "Depends": "python3",
+  "Architecture": "all",
+  "Section": "python",
+  "Installed-Size": "1",
+  "Maintainer": "Nadahar",
+  "Description": "Raspberry Pi CPU fan speed monitor\n This is a simple script that outputs the fan speed of the configured GPIO pin once every second, provided that the pin is connected to a fan speed sensor.",
+  "Homepage": "http://github.com/Nadahar/PiFan"
+}

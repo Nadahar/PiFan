@@ -1,0 +1,15 @@
+{
+  "Package": "pifan-pijuice",
+  "Version": "REPLACE_VERSION",
+  "Priority": "optional",
+  "Depends": "python3, python3-pip",
+  "Recommends": "pijuice-base",
+  "Conflicts": "pifan",
+  "Replaces": "pifan",
+  "Architecture": "all",
+  "Section": "python",
+  "Installed-Size": "4",
+  "Maintainer": "Nadahar",
+  "Description": "Raspberry Pi hardware PWM CPU fan control\n This is a service/daemon that monitors the onboard temperature sensor and regulates the fan speed on the configured hardware PWM channel accordingly, while also integrating with the PiJuice HAT.",
+  "Homepage": "http://github.com/Nadahar/PiFan"
+}

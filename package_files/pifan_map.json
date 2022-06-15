@@ -1,0 +1,30 @@
+[
+  {
+    "name": "control",
+    "path": "/DEBIAN/"
+  },
+  {
+    "name": "preinst",
+    "path": "/DEBIAN/"
+  },
+  {
+    "name": "postinst",
+    "path": "/DEBIAN/"
+  },
+  {
+    "name": "prerm",
+    "path": "/DEBIAN/"
+  },
+  {
+    "name": "postrm",
+    "path": "/DEBIAN/"
+  },
+  {
+    "name": "pifand",
+    "path": "/usr/local/bin/"
+  },
+  {
+    "name": "pifand.service",
+    "path": "/etc/systemd/system/"
+  }
+]

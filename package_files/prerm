@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+if [ -x "/etc/init.d/pifand" ] && [ "$1" = remove ]; then
+        invoke-rc.d pifand stop || exit 1
+fi
+if [ -d /run/systemd/system ] && [ "$1" = remove ]; then
+        deb-systemd-invoke stop 'pifand.service' >/dev/null || true
+fi

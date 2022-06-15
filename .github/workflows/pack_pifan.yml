@@ -1,0 +1,182 @@
+name: Pack PiFan
+
+on:
+  push:
+    tags:
+      - '**'
+  pull_request:
+  workflow_dispatch:
+
+env:
+  VERSION: unknown
+
+jobs:
+  deb-packages-build:
+    name: Generate Debian Package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Set $VERSION from tag
+        run: echo "VERSION=$(echo $GITHUB_REF_NAME | grep -o -m 1 -E [0-9\.]+)" >> $GITHUB_ENV
+        if: ${{ github.ref_type == 'tag' }}
+        
+      - name: Set $VERSION from commit
+        run: echo "VERSION=0~$GITHUB_SHA" >> $GITHUB_ENV
+        if: ${{ github.ref_type != 'tag' }}
+        
+      - name: Generate pifan output folder
+        run: mkdir pifan_root
+
+      - name: Generate pifan control file
+        id: pifan-control-gen
+        uses: Nightwind-Developments/debian-control-file-builder@latest
+        with:
+          config-file: 'package_files/pifan_configuration.json'
+          deps-file: 'package_files/dependencies.txt'
+          output-path: 'pifan_root'
+
+      - name: Print pifan output file path
+        run: echo "${{ steps.pifan-control-gen.outputs.control_file_path }}"
+
+      - name: Confirm that the pifan control file is present
+        run: ls -la ${{ steps.pifan-control-gen.outputs.control_file_path }}
+
+      - name: Replace pifan version
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: 'REPLACE_VERSION'
+          replace: ${{ env.VERSION }}
+          include: ${{ steps.pifan-control-gen.outputs.control_file_path }}
+
+      - name: Show content of pifan control file
+        run: cat ${{ steps.pifan-control-gen.outputs.control_file_path }}
+
+      - name: Copy pifan files to the package source folder
+        run: |
+          cp pifan.py pifan_root/pifand
+          cp pifan.service pifan_root/pifand.service
+          cp package_files/preinst pifan_root/preinst
+          cp package_files/postinst pifan_root/postinst
+          cp package_files/prerm pifan_root/prerm
+          cp package_files/postrm pifan_root/postrm
+
+      - name: Print contents of pifan input resources
+        run: ls -l pifan_root/
+
+      - name: Build Docker container & run Debian Packer for pifan
+        uses: Nightwind-Developments/debian-packer@latest
+        id: container-pifan
+        with:
+          input_dir: 'pifan_root'
+          output_dir: 'output'
+          layout_map_file: 'package_files/pifan_map.json'
+          package_name: 'pifan'
+          package_version: ${{ env.VERSION }}
+          package_arch: 'all'
+
+      - name: Generate pifan-pijuice output folder
+        run: mkdir pifan-pijuice_root
+
+      - name: Generate pifan-pijuice control file
+        id: pifan-pijuice-control-gen
+        uses: Nightwind-Developments/debian-control-file-builder@latest
+        with:
+          config-file: 'package_files/pifan-pijuice_configuration.json'
+          deps-file: 'package_files/dependencies.txt'
+          output-path: 'pifan-pijuice_root'
+
+      - name: Print pifan-pijuice output file path
+        run: echo "${{ steps.pifan-pijuice-control-gen.outputs.control_file_path }}"
+
+      - name: Confirm that the pifan-pijuice control file is present
+        run: ls -la ${{ steps.pifan-pijuice-control-gen.outputs.control_file_path }}
+
+      - name: Replace pifan-pijuice version
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: 'REPLACE_VERSION'
+          replace: ${{ env.VERSION }}
+          include: ${{ steps.pifan-pijuice-control-gen.outputs.control_file_path }}
+
+      - name: Show content of pifan-pijuice control file
+        run: cat ${{ steps.pifan-pijuice-control-gen.outputs.control_file_path }}
+
+      - name: Copy pifan-pijuice files to the package source folder
+        run: |
+          cp pifan-pijuice.py pifan-pijuice_root/pifand
+          cp pifan.service pifan-pijuice_root/pifand.service
+          cp package_files/preinst pifan-pijuice_root/preinst
+          cp package_files/postinst pifan-pijuice_root/postinst
+          cp package_files/prerm pifan-pijuice_root/prerm
+          cp package_files/postrm pifan-pijuice_root/postrm
+
+      - name: Print contents of pifan-pijuice input resources
+        run: ls -l pifan-pijuice_root/
+
+      - name: Build Docker container & run Debian Packer for pifan-pijuice
+        uses: Nightwind-Developments/debian-packer@latest
+        id: container-pifan-pijuice
+        with:
+          input_dir: 'pifan-pijuice_root'
+          output_dir: 'output'
+          layout_map_file: 'package_files/pifan-pijuice_map.json'
+          package_name: 'pifan-pijuice'
+          package_version: ${{ env.VERSION }}
+          package_arch: 'all'
+
+      - name: Generate pifan-monitor output folder
+        run: mkdir pifan-monitor_root
+
+      - name: Generate pifan-monitor control file
+        id: pifan-monitor-control-gen
+        uses: Nightwind-Developments/debian-control-file-builder@latest
+        with:
+          config-file: 'package_files/pifan-monitor_configuration.json'
+          deps-file: 'package_files/dependencies.txt'
+          output-path: 'pifan-monitor_root'
+
+      - name: Print pifan-monitor output file path
+        run: echo "${{ steps.pifan-monitor-control-gen.outputs.control_file_path }}"
+
+      - name: Confirm that the pifan-monitor control file is present
+        run: ls -la ${{ steps.pifan-monitor-control-gen.outputs.control_file_path }}
+
+      - name: Replace pifan-monitor version
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: 'REPLACE_VERSION'
+          replace: ${{ env.VERSION }}
+          include: ${{ steps.pifan-monitor-control-gen.outputs.control_file_path }}
+
+      - name: Show content of pifan-monitor control file
+        run: cat ${{ steps.pifan-monitor-control-gen.outputs.control_file_path }}
+
+      - name: Copy pifan-monitor files to the package source folder
+        run: cp pifan-monitor.py pifan-monitor_root/pifan-monitor
+
+      - name: Print contents of pifan-monitor input resources
+        run: ls -l pifan-monitor_root/
+
+      - name: Build Docker container & run Debian Packer for pifan-monitor
+        uses: Nightwind-Developments/debian-packer@latest
+        id: container-pifan-monitor
+        with:
+          input_dir: 'pifan-monitor_root'
+          output_dir: 'output'
+          layout_map_file: 'package_files/pifan-monitor_map.json'
+          package_name: 'pifan-monitor'
+          package_version: ${{ env.VERSION }}
+          package_arch: 'all'
+
+      - name: Print contents of output folder
+        run: ls -l output/
+
+      - name: Upload generated package files
+        uses: actions/upload-artifact@v3
+        with:
+          name: pifan-packages
+          path: "output/"
+          if-no-files-found: error
