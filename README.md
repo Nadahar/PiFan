@@ -4,7 +4,7 @@ This is a few Python scripts that can be used to control a PWM (Pulse-Width Modu
 
 PiFan is based on [DriftKingTW/Raspberry-Pi-PWM-Fan-Control](https://github.com/DriftKingTW/Raspberry-Pi-PWM-Fan-Control), but has been rewritten to use hardware PWM instead of software PWM. This allows much higher PWM frequencies and offloads the CPU so that it won't have to keep generating the PWM pulses. To get an overview over the GPIO pins, consult [pinout.xyz](https://pinout.xyz/#).
 
-The wiring is identical to the original project, and a great guide can be found [here](http://web.archive.org/web/20220612050958/https://blog.driftking.tw/en/2019/11/Using-Raspberry-Pi-to-Control-a-PWM-Fan-and-Monitor-its-Speed/).
+The wiring is identical to the original project, and a great guide can be found [here](http://web.archive.org/web/20220612050958/https://blog.driftking.tw/en/2019/11/Using-Raspberry-Pi-to-Control-a-PWM-Fan-and-Monitor-its-Speed/). I've also made a little writeup on [how I built my fan solution and put it all together in a case](MY_BUILD.md).
 
 ## Behavior
 
