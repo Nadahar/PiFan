@@ -10,7 +10,7 @@ The wiring is identical to the original project, and a great guide can be found 
 
 Why use a temperature control that gradually increases the fan RPM as the temperature rises, as opposed to the "original" Raspberry Pi fan that simply turns on and off at a set temperature? Is it all worth it? Dynamic fan speed control allows much tighter control of temperature fluctuations, which will increase the life of the CPU and other components. In addition it is virtually silent and consumes less power, unless you configure it to enforce very low temperatures.
 
-Below is a comparison of different setups I've tested while running [stressberry](https://github.com/nschloe/stressberry).
+Below is a comparison of different setups I've tested while running [stressberry](https://github.com/nschloe/stressberry). You can read about how I used it [here](STRESSBERRY.md).
 
 <figure>
   <img src="images/stressberry.png" alt="Temperature graph"/>
