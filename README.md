@@ -99,6 +99,38 @@ lsmod | grep pwm_bcm
 
 It should give an output resembling for example `pwm_bcm2835 16384 1` or `pwm_bcm2835 2711 0`.
 
+### Downloading
+
+For those using a Debian based system like Raspberry Pi OS, the files can be downloaded with:
+```bash
+wget https://github.com/Nadahar/PiFan/releases/download/v1.0.0/pifan_1.0.0_all.deb
+wget https://github.com/Nadahar/PiFan/releases/download/v1.0.0/pifan-pijuice_1.0.0_all.deb
+wget https://github.com/Nadahar/PiFan/releases/download/v1.0.0/pifan-monitor_1.0.0_all.deb
+```
+If you don't use a Debian based system, you have to checkout this repository using `git clone https://github.com/Nadahar/PiFan.git` and the place the files you need where you want them manually.
+
+### GPG signature verification
+
+While I think the risk of somebody maliciously modifying these files is small as long as they are downloaded from GitHub, I've added GPG signatures so that the files can be verified before installation if you so desire. To be able to verify a particular file's integrity, you need to download the corresponding `.sig` file first:
+```bash
+wget https://github.com/Nadahar/PiFan/releases/download/v1.0.0/pifan_1.0.0_all.deb.sig
+wget https://github.com/Nadahar/PiFan/releases/download/v1.0.0/pifan-pijuice_1.0.0_all.deb.sig
+wget https://github.com/Nadahar/PiFan/releases/download/v1.0.0/pifan-monitor_1.0.0_all.deb.sig
+```
+
+Before you can verify the GPG signature, you must download the public key from a keyserver. These have changed quite a lot the last years, so you might have to use another server for this to work in the future. At the time of writing, the Ubuntu server still works. This step does *not* need to be repeated for subsequent verifications of the same signature on the same system:
+```bash
+gpg --keyserver keyserver.ubuntu.com --recv-keys 0xED0A8DF3AF0054DB16EC678A101C00449760763B
+```
+Once the key is known to your system, you can verify the file integrity by running:
+```bash
+gpg --verify <signature file name>
+```
+Please note that both the `.deb` and the corresponding `.sig` file must be in the same folder for the verification to succeed. Example for verifying `pifan_1.0.0_all.deb`:
+```bash
+gpg --verify pifan_1.0.0_all.deb.sig
+```
+
 ## Installation
 
 To make installation easier, PiFan has been split into three `.deb` packages that can be installed using `apt`:
@@ -111,7 +143,7 @@ The package installations will make sure that the necessary dependencies are ins
 
 If you're going to use PiFan together with a [PiJuice](https://github.com/PiSupply/PiJuice) [HAT](https://uk.pi-supply.com/products/pijuice-standard), you probably want to use `pifan-pijuice`. If you don't have a PiJuice HAT, or don't want the PiJuice LED to indicate the fan status, you should use `pifan`.
 
-All packages can be installed using `apt`, but since they don't exist in any repository, they will have to be manually downloaded first. Once that is done, installation is as simple as running:
+All packages can be installed using `apt`, but since they don't exist in any repository, the file name must be specified instead of the package name when running `apt install`:
 ```bash
 sudo apt install ./<package name>.deb
 ```
