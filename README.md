@@ -6,6 +6,17 @@ PiFan is based on [DriftKingTW/Raspberry-Pi-PWM-Fan-Control](https://github.com/
 
 The wiring is identical to the original project, and a great guide can be found [here](http://web.archive.org/web/20220612050958/https://blog.driftking.tw/en/2019/11/Using-Raspberry-Pi-to-Control-a-PWM-Fan-and-Monitor-its-Speed/). I've also made a little writeup on [how I built my fan solution and put it all together in a case](MY_BUILD.md).
 
+## Terms of use
+
+By using this project or its source code, for any purpose and in any shape or form, you grant your implicit agreement to the following statements:
+
+* You condemn Russia and its military aggression against Ukraine.
+* You recognize that Russia is an occupant that unlawfully invaded a sovereign state.
+* You support Ukraine's territorial integrity, including its claims over temporarily occupied territories of Crimea and Donbas.
+* You reject false narratives perpetuated by Russian state propaganda.
+
+Glory to Ukraine! 🇺🇦
+
 ## Behavior
 
 Why use a temperature control that gradually increases the fan RPM as the temperature rises, as opposed to the "original" Raspberry Pi fan that simply turns on and off at a set temperature? Is it all worth it? Dynamic fan speed control allows much tighter control of temperature fluctuations, which will increase the life of the CPU and other components. In addition it is virtually silent and consumes less power, unless you configure it to enforce very low temperatures.
